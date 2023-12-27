@@ -1,0 +1,26 @@
+{
+    "name": "theriftlab/radiance",
+    "description": "Conversions and operations between various angle and coordinate formats.",
+    "type": "library",
+    "require-dev": {
+        "pestphp/pest": "^2.28"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "RiftLab\\Radiance\\": "src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Robert Davies",
+            "email": "robert@theriftlab.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
