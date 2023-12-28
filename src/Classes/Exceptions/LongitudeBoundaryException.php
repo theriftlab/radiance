@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Classes\Exceptions;
 
-class LongitudeBoundaryException extends BaseBoundaryException
+class LongitudeBoundaryException extends BoundaryException
 {
-    protected static string $type = 'longitude';
+    protected ?string $customMessage = 'Longitude value must be between -180° and 180°.';
 }

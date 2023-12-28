@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Classes\Exceptions;
 
-class LatitudeBoundaryException extends BaseBoundaryException
+class LatitudeBoundaryException extends BoundaryException
 {
-    protected static string $type = 'latitude';
+    protected ?string $customMessage = 'Latitude value must be between -90° and 90°.';
 }

@@ -2,30 +2,30 @@
 
 namespace RiftLab\Radiance;
 
-use RiftLab\Radiance\Concerns\IsCoordinate;
 use RiftLab\Radiance\Classes\Abstract\BaseAngle;
-use RiftLab\Radiance\Classes\Exceptions\LongitudeBoundaryException;
+use RiftLab\Radiance\Concerns\CoordinateFormat;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Enum\Limit;
 
 class Longitude extends BaseAngle implements AngleInterface
 {
-    use IsCoordinate;
-
-    protected static string $boundaryExceptionClass = LongitudeBoundaryException::class;
+    use CoordinateFormat;
 
     protected static function getLimit(): Limit
     {
         return Limit::SEMICIRCLE;
     }
 
-    protected static function getNegativeDirection(): string
+    protected static function getNormalize(): bool
     {
-        return 'w';
+        return false;
     }
 
-    protected static function getPositiveDirection(): string
+    protected static function getDirections(): array
     {
-        return 'e';
+        return [
+            'negative' => 'w',
+            'positive' => 'e',
+        ];
     }
 }

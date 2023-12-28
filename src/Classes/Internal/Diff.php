@@ -2,15 +2,15 @@
 
 namespace RiftLab\Radiance\Classes\Internal;
 
-use RiftLab\Radiance\Concerns\IsAngle;
 use RiftLab\Radiance\Classes\Abstract\Radiance;
+use RiftLab\Radiance\Concerns\AngleFormat;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Contracts\DiffInterface;
 use RiftLab\Radiance\Services\Calculate;
 
 class Diff extends Radiance implements DiffInterface
 {
-    use IsAngle;
+    use AngleFormat;
 
     public function __construct(
         protected AngleInterface $from,

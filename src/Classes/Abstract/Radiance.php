@@ -21,16 +21,14 @@ abstract class Radiance implements RadianceInterface
 
     abstract protected static function getStringFormat(): string;
 
-    abstract protected static function getNegativeDirection(): string;
+    abstract protected static function getDirections(): array;
 
-    abstract protected static function getPositiveDirection(): string;
-
-    protected function stringFormatPlaceholders(): array
+    protected function getStringFormatPlaceholders(): array
     {
         return [];
     }
 
-    protected function getStringFormatPlaceholders(): array
+    protected function getMergedStringFormatPlaceholders(): array
     {
         return [
             '/\{d\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getDegrees($match[1]), $match[1], false),
@@ -41,11 +39,11 @@ abstract class Radiance implements RadianceInterface
             '/\{mm\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getMinutes($match[1]), $match[1], true),
             '/\{ss\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getSeconds($match[1]), $match[1], true),
 
-            ...$this->stringFormatPlaceholders(),
+            ...$this->getStringFormatPlaceholders(),
         ];
     }
 
-    public function __construct(protected float $angle)
+    protected function __construct(protected float $angle)
     {
         $this->negative = $this->angle < 0;
         $array = Calculate::arrayFrom($this->angle);
@@ -68,7 +66,7 @@ abstract class Radiance implements RadianceInterface
 
     public function getDirection(): string
     {
-        return $this->isNegative() ? static::getNegativeDirection() : static::getPositiveDirection();
+        return $this->isNegative() ? static::getDirections()['negative'] : static::getDirections()['positive'];
     }
 
     public function getDegrees(int $decimalPoints = -1): float
@@ -99,7 +97,7 @@ abstract class Radiance implements RadianceInterface
             return $this->formattedStrings[$stringFormat];
         }
 
-        return $this->formattedStrings[$stringFormat] = preg_replace_callback_array(static::getStringFormatPlaceholders(), $stringFormat);
+        return $this->formattedStrings[$stringFormat] = preg_replace_callback_array(static::getMergedStringFormatPlaceholders(), $stringFormat);
     }
 
     public function toArray(): array

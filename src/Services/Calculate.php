@@ -38,7 +38,7 @@ class Calculate
     {
         $distance = static::distance($angle1, $angle2);
 
-        return static::normalize(bcadd(($distance < 0 ? $angle2 : $angle1), bcdiv(abs($distance), 2, static::$precision+1), static::$precision+1));
+        return static::normalize(bcadd(($distance < 0 && $distance !== 180.0 ? $angle2 : $angle1), bcdiv(abs($distance), 2, static::$precision+1), static::$precision+1));
     }
 
     public static function normalize(float $angle, int $size = 360): float

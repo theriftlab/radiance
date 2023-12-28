@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Classes\Abstract;
 
-use RiftLab\Radiance\Classes\Exceptions\AngleBoundaryException;
+use RiftLab\Radiance\Classes\Exceptions\BoundaryException;
 use RiftLab\Radiance\Classes\Internal\Diff;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Contracts\DiffInterface;
@@ -11,8 +11,6 @@ use RiftLab\Radiance\Services\Calculate;
 
 abstract class BaseAngle extends Radiance implements AngleInterface
 {
-    protected static string $boundaryExceptionClass = AngleBoundaryException::class;
-
     abstract protected static function getLimit(): Limit;
 
     abstract protected static function getNormalize(): bool;
@@ -64,12 +62,25 @@ abstract class BaseAngle extends Radiance implements AngleInterface
     {
         if (abs($angle) > static::getLimit()->value) {
             if (! static::getNormalize()) {
-                throw new static::$boundaryExceptionClass($angle, static::getLimit());
+                static::throwBoundaryException($angle);
             }
 
             return Calculate::normalize($angle, static::getLimit()->value);
         }
 
         return $angle;
+    }
+
+    protected static function throwBoundaryException(float $angle): void
+    {
+        $namespace = (new \ReflectionClass(BoundaryException::class))->getNamespaceName();
+        $class = (new \ReflectionClass(static::class))->getShortName().'BoundaryException';
+        $exceptionClass = $namespace.'\\'.$class;
+
+        if (class_exists($exceptionClass)) {
+            throw new $exceptionClass($angle);
+        }
+
+        throw new BoundaryException($angle);
     }
 }
