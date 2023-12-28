@@ -9,23 +9,9 @@ abstract class BaseFormatter implements FormatterInterface
 {
     protected static string $format;
 
-    protected static string $negativeDirection;
-
-    protected static string $positiveDirection;
-
     public static function getFormat(): string
     {
         return static::$format;
-    }
-
-    public static function getNegativeDirection(): string
-    {
-        return static::$negativeDirection;
-    }
-
-    public static function getPositiveDirection(): string
-    {
-        return static::$positiveDirection;
     }
 
     public static function format(RadianceInterface $instance, string $format = null): string

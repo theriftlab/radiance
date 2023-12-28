@@ -8,8 +8,6 @@ interface RadianceInterface
 
     public function isNegative(): bool;
 
-    public function getDirection(): string;
-
     public function getDegrees(): float;
 
     public function getMinutes(): float;

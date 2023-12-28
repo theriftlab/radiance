@@ -30,7 +30,7 @@ abstract class Radiance implements RadianceInterface
         [$this->degrees, $this->minutes, $this->seconds] = $array;
 
         $this->array = [
-            'direction' => $this->getDirection(),
+            'direction' => $this->isNegative() ? '-' : '+',
             ...array_combine(['degrees', 'minutes', 'seconds'], $array),
         ];
     }
@@ -48,11 +48,6 @@ abstract class Radiance implements RadianceInterface
     public function isNegative(): bool
     {
         return $this->negative;
-    }
-
-    public function getDirection(): string
-    {
-        return $this->isNegative() ? static::$formatter::getNegativeDirection() : static::$formatter::getPositiveDirection();
     }
 
     public function getDegrees(int $decimalPoints = -1): float
