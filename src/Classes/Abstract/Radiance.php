@@ -19,35 +19,16 @@ abstract class Radiance implements RadianceInterface
 
     protected array $formattedStrings = [];
 
-    abstract protected static function getStringFormat(): string;
-
-    abstract protected static function getDirections(): array;
-
-    protected function getStringFormatPlaceholders(): array
-    {
-        return [];
-    }
-
-    protected function getMergedStringFormatPlaceholders(): array
-    {
-        return [
-            '/\{d\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getDegrees($match[1]), $match[1], false),
-            '/\{m\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getMinutes($match[1]), $match[1], false),
-            '/\{s\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getSeconds($match[1]), $match[1], false),
-
-            '/\{dd\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getDegrees($match[1]), $match[1], true),
-            '/\{mm\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getMinutes($match[1]), $match[1], true),
-            '/\{ss\.(-?\d+)\}/' => fn ($match) => $this->formatValue($this->getSeconds($match[1]), $match[1], true),
-
-            ...$this->getStringFormatPlaceholders(),
-        ];
-    }
+    protected static string $formatter;
 
     protected function __construct(protected float $angle)
     {
         $this->negative = $this->angle < 0;
+
         $array = Calculate::arrayFrom($this->angle);
+
         [$this->degrees, $this->minutes, $this->seconds] = $array;
+
         $this->array = [
             'direction' => $this->getDirection(),
             ...array_combine(['degrees', 'minutes', 'seconds'], $array),
@@ -59,6 +40,11 @@ abstract class Radiance implements RadianceInterface
         return $this->toString();
     }
 
+    public function getFormatter(): string
+    {
+        return static::$formatter;
+    }
+
     public function isNegative(): bool
     {
         return $this->negative;
@@ -66,7 +52,7 @@ abstract class Radiance implements RadianceInterface
 
     public function getDirection(): string
     {
-        return $this->isNegative() ? static::getDirections()['negative'] : static::getDirections()['positive'];
+        return $this->isNegative() ? static::$formatter::getNegativeDirection() : static::$formatter::getPositiveDirection();
     }
 
     public function getDegrees(int $decimalPoints = -1): float
@@ -91,24 +77,15 @@ abstract class Radiance implements RadianceInterface
 
     public function toString(string $stringFormat = null): string
     {
-        $stringFormat = $stringFormat ?? static::getStringFormat();
-
         if (isset($this->formattedStrings[$stringFormat])) {
             return $this->formattedStrings[$stringFormat];
         }
 
-        return $this->formattedStrings[$stringFormat] = preg_replace_callback_array(static::getMergedStringFormatPlaceholders(), $stringFormat);
+        return $this->formattedStrings[$stringFormat] = static::$formatter::format($this, $stringFormat);
     }
 
     public function toArray(): array
     {
         return $this->array;
-    }
-
-    protected function formatValue(float $value, int $decimalPoints, bool $leadingZero): string
-    {
-        $value = number_format($value, $decimalPoints);
-
-        return $leadingZero && $value < 10 ? "0$value" : $value;
     }
 }

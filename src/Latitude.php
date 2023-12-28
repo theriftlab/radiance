@@ -3,29 +3,18 @@
 namespace RiftLab\Radiance;
 
 use RiftLab\Radiance\Classes\Abstract\BaseAngle;
-use RiftLab\Radiance\Concerns\CoordinateFormat;
+use RiftLab\Radiance\Classes\Exceptions\LatitudeBoundaryException;
+use RiftLab\Radiance\Classes\Formatters\LatitudeFormatter;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Enum\Limit;
 
 class Latitude extends BaseAngle implements AngleInterface
 {
-    use CoordinateFormat;
+    protected static Limit $limit = Limit::QUADRANT;
 
-    protected static function getLimit(): Limit
-    {
-        return Limit::QUADRANT;
-    }
+    protected static bool $normalize = false;
 
-    protected static function getNormalize(): bool
-    {
-        return false;
-    }
+    protected static string $boundaryExceptionClass = LatitudeBoundaryException::class;
 
-    protected static function getDirections(): array
-    {
-        return [
-            'negative' => 's',
-            'positive' => 'n',
-        ];
-    }
+    protected static string $formatter = LatitudeFormatter::class;
 }

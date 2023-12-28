@@ -4,6 +4,10 @@ namespace RiftLab\Radiance\Contracts;
 
 interface RadianceInterface
 {
+    public function getFormatter(): string;
+
+    public function isNegative(): bool;
+
     public function getDirection(): string;
 
     public function getDegrees(): float;

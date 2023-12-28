@@ -11,9 +11,11 @@ use RiftLab\Radiance\Services\Calculate;
 
 abstract class BaseAngle extends Radiance implements AngleInterface
 {
-    abstract protected static function getLimit(): Limit;
+    protected static Limit $limit;
 
-    abstract protected static function getNormalize(): bool;
+    protected static bool $normalize;
+
+    protected static string $boundaryExceptionClass = BoundaryException::class;
 
     public static function make(float | string $angle): AngleInterface
     {
@@ -25,12 +27,12 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     public function add(AngleInterface | float $angle): AngleInterface
     {
-        return static::make(Calculate::add($this->toDecimal(), $this->getDecimalFrom($angle), static::getNormalize()));
+        return static::make(Calculate::add($this->toDecimal(), $this->getDecimalFrom($angle), static::$normalize));
     }
 
     public function sub(AngleInterface | float $angle): AngleInterface
     {
-        return static::make(Calculate::sub($this->toDecimal(), $this->getDecimalFrom($angle), static::getNormalize()));
+        return static::make(Calculate::sub($this->toDecimal(), $this->getDecimalFrom($angle), static::$normalize));
     }
 
     public function distanceTo(AngleInterface | float $angle): DiffInterface
@@ -60,27 +62,14 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     protected static function safeNormalize(float $angle): float
     {
-        if (abs($angle) > static::getLimit()->value) {
-            if (! static::getNormalize()) {
-                static::throwBoundaryException($angle);
+        if (abs($angle) > static::$limit->value) {
+            if (! static::$normalize) {
+                throw new (static::$boundaryExceptionClass)($angle);
             }
 
-            return Calculate::normalize($angle, static::getLimit()->value);
+            return Calculate::normalize($angle, static::$limit->value);
         }
 
         return $angle;
-    }
-
-    protected static function throwBoundaryException(float $angle): void
-    {
-        $namespace = (new \ReflectionClass(BoundaryException::class))->getNamespaceName();
-        $class = (new \ReflectionClass(static::class))->getShortName().'BoundaryException';
-        $exceptionClass = $namespace.'\\'.$class;
-
-        if (class_exists($exceptionClass)) {
-            throw new $exceptionClass($angle);
-        }
-
-        throw new BoundaryException($angle);
     }
 }
