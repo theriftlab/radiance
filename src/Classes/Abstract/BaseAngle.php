@@ -25,12 +25,12 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     public function add(AngleInterface | float $angle): AngleInterface
     {
-        return new static(Calculate::add($this->toDecimal(), $this->getDecimalFrom($angle), static::getNormalize()));
+        return static::make(Calculate::add($this->toDecimal(), $this->getDecimalFrom($angle), static::getNormalize()));
     }
 
     public function sub(AngleInterface | float $angle): AngleInterface
     {
-        return new static(Calculate::sub($this->toDecimal(), $this->getDecimalFrom($angle), static::getNormalize()));
+        return static::make(Calculate::sub($this->toDecimal(), $this->getDecimalFrom($angle), static::getNormalize()));
     }
 
     public function distanceTo(AngleInterface | float $angle): DiffInterface
@@ -45,7 +45,7 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     public function midpointWith(AngleInterface | float $angle): AngleInterface
     {
-        return new static(Calculate::midpoint($this->toDecimal(), $this->getDecimalFrom($angle)));
+        return static::make(Calculate::midpoint($this->toDecimal(), $this->getDecimalFrom($angle)));
     }
 
     protected function getDecimalFrom(AngleInterface | float $angle): float
