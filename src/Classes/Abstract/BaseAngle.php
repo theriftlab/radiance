@@ -15,8 +15,6 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     protected static bool $normalize;
 
-    protected static string $boundaryExceptionClass = BoundaryException::class;
-
     public static function make(float | string $angle): AngleInterface
     {
         $decimalAngle = Calculate::decimalFrom($angle);
@@ -64,12 +62,17 @@ abstract class BaseAngle extends Radiance implements AngleInterface
     {
         if (abs($angle) > static::$limit->value) {
             if (! static::$normalize) {
-                throw new (static::$boundaryExceptionClass)($angle);
+                static::throwBoundaryException($angle);
             }
 
             return Calculate::normalize($angle, static::$limit->value);
         }
 
         return $angle;
+    }
+
+    protected static function throwBoundaryException(float $angle): void
+    {
+        throw new BoundaryException($angle);
     }
 }

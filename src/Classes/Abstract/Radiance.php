@@ -17,10 +17,6 @@ abstract class Radiance implements RadianceInterface
 
     protected array $array;
 
-    protected array $formattedStrings = [];
-
-    protected static string $formatter;
-
     protected function __construct(protected float $angle)
     {
         $this->negative = $this->angle < 0;
@@ -33,16 +29,6 @@ abstract class Radiance implements RadianceInterface
             'direction' => $this->isNegative() ? '-' : '+',
             ...array_combine(['degrees', 'minutes', 'seconds'], $array),
         ];
-    }
-
-    public function __toString(): string
-    {
-        return $this->toString();
-    }
-
-    public function getFormatter(): string
-    {
-        return static::$formatter;
     }
 
     public function isNegative(): bool
@@ -70,17 +56,15 @@ abstract class Radiance implements RadianceInterface
         return $this->angle;
     }
 
-    public function toString(string $stringFormat = null): string
-    {
-        if (isset($this->formattedStrings[$stringFormat])) {
-            return $this->formattedStrings[$stringFormat];
-        }
-
-        return $this->formattedStrings[$stringFormat] = static::$formatter::format($this, $stringFormat);
-    }
-
     public function toArray(): array
     {
         return $this->array;
+    }
+
+    abstract public function toString(): string;
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

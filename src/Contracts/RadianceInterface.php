@@ -4,8 +4,6 @@ namespace RiftLab\Radiance\Contracts;
 
 interface RadianceInterface
 {
-    public function getFormatter(): string;
-
     public function isNegative(): bool;
 
     public function getDegrees(): float;
@@ -16,7 +14,7 @@ interface RadianceInterface
 
     public function toDecimal(): float;
 
-    public function toString(): string;
-
     public function toArray(): array;
+
+    public function toString(): string;
 }

@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Contracts;
 
-interface AngleInterface extends RadianceInterface
+interface AngleInterface extends RadianceInterface, FormattedInterface
 {
     public static function make(float | string $angle): AngleInterface;
 
