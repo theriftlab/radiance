@@ -16,10 +16,7 @@ class Angle extends BaseAngle implements AngleInterface
 
     protected static bool $normalize = true;
 
-    public function getDefaultFormat(): string
-    {
-        return '{D}{dd.-1}°{mm.-1}\'{ss.0}"';
-    }
+    protected static string $defaultFormat = '{D}{dd.-1}°{mm.-1}\'{ss.0}"';
 
     public function getFormatPlaceholders(): array
     {

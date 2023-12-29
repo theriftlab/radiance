@@ -16,10 +16,7 @@ class Longitude extends BaseAngle implements AngleInterface
 
     protected static bool $normalize = false;
 
-    public function getDefaultFormat(): string
-    {
-        return '{d.-1}{D}{m.2}';
-    }
+    protected static string $defaultFormat = '{d.-1}{D}{m.2}';
 
     public function getFormatPlaceholders(): array
     {
@@ -29,7 +26,7 @@ class Longitude extends BaseAngle implements AngleInterface
         ];
     }
 
-    protected static function throwBoundaryException(float $angle): void
+    protected static function boundaryError(float $angle): void
     {
         throw new LongitudeBoundaryException($angle);
     }

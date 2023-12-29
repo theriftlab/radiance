@@ -6,10 +6,7 @@ trait Formatted
 {
     abstract public function getDefaultFormat(): string;
 
-    public function getFormatPlaceholders(): array
-    {
-        return [];
-    }
+    abstract public function getFormatPlaceholders(): array;
 
     public function toString(string $format = null): string
     {
