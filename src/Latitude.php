@@ -6,6 +6,7 @@ use RiftLab\Radiance\Classes\Abstract\BaseAngle;
 use RiftLab\Radiance\Classes\Exceptions\LatitudeBoundaryException;
 use RiftLab\Radiance\Concerns\Formatted;
 use RiftLab\Radiance\Contracts\AngleInterface;
+use RiftLab\Radiance\Contracts\RadianceInterface;
 use RiftLab\Radiance\Enum\Limit;
 
 class Latitude extends BaseAngle implements AngleInterface
@@ -18,11 +19,11 @@ class Latitude extends BaseAngle implements AngleInterface
 
     protected static string $defaultFormat = '{d.-1}{D}{m.2}';
 
-    public function getFormatPlaceholders(): array
+    protected static function formatPlaceholders(RadianceInterface $instance): array
     {
         return [
-            '/\{D\}/' => fn () => $this->isNegative() ? 's' : 'n',
-            '/\{DD\}/' => fn () => $this->isNegative() ? 'S' : 'N',
+            '/\{D\}/' => fn () => $instance->isNegative() ? 's' : 'n',
+            '/\{DD\}/' => fn () => $instance->isNegative() ? 'S' : 'N',
         ];
     }
 

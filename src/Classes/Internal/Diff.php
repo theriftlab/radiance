@@ -6,6 +6,7 @@ use RiftLab\Radiance\Classes\Abstract\Radiance;
 use RiftLab\Radiance\Concerns\Formatted;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Contracts\DiffInterface;
+use RiftLab\Radiance\Contracts\RadianceInterface;
 use RiftLab\Radiance\Services\Calculate;
 
 class Diff extends Radiance implements DiffInterface
@@ -25,9 +26,9 @@ class Diff extends Radiance implements DiffInterface
         return $this->from->getDefaultFormat();
     }
 
-    public function getFormatPlaceholders(): array
+    public function getFormatPlaceholders(RadianceInterface $instance): array
     {
-        return $this->from->getFormatPlaceholders();
+        return $this->from->getFormatPlaceholders($instance);
     }
 
     public function getFrom(): AngleInterface

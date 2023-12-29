@@ -6,6 +6,7 @@ use RiftLab\Radiance\Classes\Exceptions\BoundaryException;
 use RiftLab\Radiance\Classes\Internal\Diff;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Contracts\DiffInterface;
+use RiftLab\Radiance\Contracts\RadianceInterface;
 use RiftLab\Radiance\Enum\Limit;
 use RiftLab\Radiance\Services\Calculate;
 
@@ -16,6 +17,8 @@ abstract class BaseAngle extends Radiance implements AngleInterface
     protected static bool $normalize;
 
     protected static string $defaultFormat;
+
+    abstract protected static function formatPlaceholders(RadianceInterface $instance): array;
 
     public static function make(float | string $angle): AngleInterface
     {
@@ -30,9 +33,9 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return static::$defaultFormat;
     }
 
-    public function getFormatPlaceholders(): array
+    public function getFormatPlaceholders(RadianceInterface $instance): array
     {
-        return [];
+        return static::formatPlaceholders($instance);
     }
 
     public function add(AngleInterface | float $angle): AngleInterface
