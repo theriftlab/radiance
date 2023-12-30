@@ -33,7 +33,12 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return static::$defaultFormat;
     }
 
-    public function getFormatPlaceholders(RadianceInterface $instance): array
+    public function getFormatPlaceholders(): array
+    {
+        return static::formatPlaceholders($this);
+    }
+
+    public function getFormatPlaceholdersFor(RadianceInterface $instance): array
     {
         return static::formatPlaceholders($instance);
     }

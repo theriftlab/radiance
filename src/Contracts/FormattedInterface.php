@@ -6,7 +6,7 @@ interface FormattedInterface
 {
     public function getDefaultFormat(): string;
 
-    public function getFormatPlaceholders(RadianceInterface $instance): array;
+    public function getFormatPlaceholders(): array;
 
     public function toString(): string;
 }

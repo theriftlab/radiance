@@ -2,13 +2,11 @@
 
 namespace RiftLab\Radiance\Concerns;
 
-use RiftLab\Radiance\Contracts\RadianceInterface;
-
 trait Formatted
 {
     abstract public function getDefaultFormat(): string;
 
-    abstract public function getFormatPlaceholders(RadianceInterface $instance): array;
+    abstract public function getFormatPlaceholders(): array;
 
     public function toString(string $format = null): string
     {
@@ -28,7 +26,7 @@ trait Formatted
             '/\{mm\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getMinutes($match[1]), $match[1], true),
             '/\{ss\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getSeconds($match[1]), $match[1], true),
 
-            ...$this->getFormatPlaceholders($this),
+            ...$this->getFormatPlaceholders(),
         ];
     }
 
