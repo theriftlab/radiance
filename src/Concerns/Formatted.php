@@ -18,6 +18,9 @@ trait Formatted
     protected function getMergedFormatPlaceholders(): array
     {
         return [
+            '/\{S\}/' => fn () => $this->isNegative() ? '-' : '',
+            '/\{SS\}/' => fn () => $this->isNegative() ? '-' : '+',
+
             '/\{d\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getDegrees($match[1]), $match[1], false),
             '/\{m\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getMinutes($match[1]), $match[1], false),
             '/\{s\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getSeconds($match[1]), $match[1], false),

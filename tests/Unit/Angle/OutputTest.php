@@ -42,13 +42,21 @@ test('toDecimal', function () {
     expect(Angle::make($this->decimalAngle + 370)->toDecimal())->toBe($this->decimalAngle + 10);
 });
 
+test('toArray', function () {
+    expect($this->angle->toArray())->toBeArray();
+    expect($this->angle->toArray()['direction'])->toBe('+');
+    expect($this->angle->toArray()['degrees'])->toBe(51);
+    expect($this->angle->toArray()['minutes'])->toBe(28);
+    expect($this->angle->toArray()['seconds'])->toBe(40.5408);
+});
+
 test('toString basic placeholders', function () {
     expect($this->angle->toString())->toBe('51°28\'41"');
-    expect($this->smallAngle->toString('{DD}{dd.-1}°{mm.-1}\'{ss.0}"'))->toBe('+01°02\'06"');
+    expect($this->smallAngle->toString('{SS}{dd.-1}°{mm.-1}\'{ss.0}"'))->toBe('+01°02\'06"');
 
     expect($this->negativeAngle->toString('{d.-1}{m.-1}{s.0}'))->toBe('512841');
-    expect($this->negativeAngle->toString('{D}{d.-1}{m.-1}{s.0}'))->toBe('-512841');
-    expect($this->smallNegativeAngle->toString('{DD}{dd.-1}°{mm.-1}\'{ss.0}"'))->toBe('-01°02\'06"');
+    expect($this->negativeAngle->toString('{S}{d.-1}{m.-1}{s.0}'))->toBe('-512841');
+    expect($this->smallNegativeAngle->toString('{SS}{dd.-1}°{mm.-1}\'{ss.0}"'))->toBe('-01°02\'06"');
 });
 
 test('toString degree placeholder precision', function () {

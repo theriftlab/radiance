@@ -27,7 +27,9 @@ abstract class Radiance implements RadianceInterface
 
         $this->array = [
             'direction' => $this->isNegative() ? '-' : '+',
-            ...array_combine(['degrees', 'minutes', 'seconds'], $array),
+            'degrees' => intval($this->degrees),
+            'minutes' => intval($this->minutes),
+            'seconds' => $this->seconds,
         ];
     }
 

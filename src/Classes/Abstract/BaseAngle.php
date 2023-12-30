@@ -18,7 +18,10 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     protected static string $defaultFormat;
 
-    abstract protected static function formatPlaceholders(RadianceInterface $instance): array;
+    protected static function formatPlaceholders(RadianceInterface $instance): array
+    {
+        return [];
+    }
 
     public static function make(float | string $angle): AngleInterface
     {
