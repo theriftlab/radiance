@@ -21,13 +21,13 @@ trait Formatted
             '/\{S\}/' => fn () => $this->isNegative() ? '-' : '',
             '/\{SS\}/' => fn () => $this->isNegative() ? '-' : '+',
 
-            '/\{d(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($match[2] ?? null), $match[2] ?? null, false),
-            '/\{m(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($match[2] ?? null), $match[2] ?? null, false),
-            '/\{s(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($match[2] ?? null), $match[2] ?? null, false),
+            '/\{d(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($dp = $match[2] ?? null), $dp, false),
+            '/\{m(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($dp = $match[2] ?? null), $dp, false),
+            '/\{s(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($dp = $match[2] ?? null), $dp, false),
 
-            '/\{dd(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($match[2] ?? null), $match[2] ?? null, true),
-            '/\{mm(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($match[2] ?? null), $match[2] ?? null, true),
-            '/\{ss(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($match[2] ?? null), $match[2] ?? null, true),
+            '/\{dd(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($dp = $match[2] ?? null), $dp, true),
+            '/\{mm(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($dp = $match[2] ?? null), $dp, true),
+            '/\{ss(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($dp = $match[2] ?? null), $dp, true),
 
             ...$this->getFormatPlaceholders(),
         ];
