@@ -1,6 +1,6 @@
 <?php
 
-use RiftLab\Radiance\Classes\Exceptions\LongitudeBoundaryException;
+use RiftLab\Radiance\Classes\Exceptions\LongitudeBoundaryError;
 use RiftLab\Radiance\Longitude;
 
 test('format conversion', function () {
@@ -20,6 +20,6 @@ test('format conversion', function () {
 });
 
 test('initial longitude out of bounds exception', function () {
-    expect(fn () => Longitude::make(-181))->toThrow(LongitudeBoundaryException::class);
-    expect(fn () => Longitude::make(181))->toThrow(LongitudeBoundaryException::class);
+    expect(fn () => Longitude::make(-181))->toThrow(LongitudeBoundaryError::class);
+    expect(fn () => Longitude::make(181))->toThrow(LongitudeBoundaryError::class);
 });

@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Classes\Exceptions;
 
-class BoundaryException extends \Exception
+class BoundaryError extends \ValueError
 {
     protected ?string $customMessage = null;
 

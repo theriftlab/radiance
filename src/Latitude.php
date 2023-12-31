@@ -3,7 +3,7 @@
 namespace RiftLab\Radiance;
 
 use RiftLab\Radiance\Classes\Abstract\BaseAngle;
-use RiftLab\Radiance\Classes\Exceptions\LatitudeBoundaryException;
+use RiftLab\Radiance\Classes\Exceptions\LatitudeBoundaryError;
 use RiftLab\Radiance\Concerns\Formatted;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Contracts\RadianceInterface;
@@ -29,6 +29,6 @@ class Latitude extends BaseAngle implements AngleInterface
 
     protected static function boundaryError(float $angle): void
     {
-        throw new LatitudeBoundaryException($angle);
+        throw new LatitudeBoundaryError($angle);
     }
 }

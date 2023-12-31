@@ -1,6 +1,6 @@
 <?php
 
-use RiftLab\Radiance\Classes\Exceptions\LatitudeBoundaryException;
+use RiftLab\Radiance\Classes\Exceptions\LatitudeBoundaryError;
 use RiftLab\Radiance\Latitude;
 
 test('format conversion', function () {
@@ -20,6 +20,6 @@ test('format conversion', function () {
 });
 
 test('initial latitude out of bounds exception', function () {
-    expect(fn () => Latitude::make(-91))->toThrow(LatitudeBoundaryException::class);
-    expect(fn () => Latitude::make(91))->toThrow(LatitudeBoundaryException::class);
+    expect(fn () => Latitude::make(-91))->toThrow(LatitudeBoundaryError::class);
+    expect(fn () => Latitude::make(91))->toThrow(LatitudeBoundaryError::class);
 });

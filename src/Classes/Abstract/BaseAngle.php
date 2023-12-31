@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Classes\Abstract;
 
-use RiftLab\Radiance\Classes\Exceptions\BoundaryException;
+use RiftLab\Radiance\Classes\Exceptions\BoundaryError;
 use RiftLab\Radiance\Classes\Internal\Diff;
 use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Contracts\DiffInterface;
@@ -96,6 +96,6 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     protected static function boundaryError(float $angle): void
     {
-        throw new BoundaryException($angle);
+        throw new BoundaryError($angle);
     }
 }
