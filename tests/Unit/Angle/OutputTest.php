@@ -8,7 +8,8 @@ test('isNegative', function () {
 });
 
 test('getDegrees', function () {
-    expect($this->angle->getDegrees())->toBe(51.0);
+    expect($this->angle->getDegrees())->toBe(51.477928);
+    expect($this->angle->getDegrees(-1))->toBe(51.0);
     expect($this->angle->getDegrees(0))->toBe(51.0);
     expect($this->angle->getDegrees(1))->toBe(51.5);
     expect($this->angle->getDegrees(2))->toBe(51.48);
@@ -19,7 +20,8 @@ test('getDegrees', function () {
 });
 
 test('getMinutes', function () {
-    expect($this->angle->getMinutes())->toBe(28.0);
+    expect($this->angle->getMinutes())->toBe(28.67568);
+    expect($this->angle->getMinutes(-1))->toBe(28.0);
     expect($this->angle->getMinutes(0))->toBe(29.0);
     expect($this->angle->getMinutes(1))->toBe(28.7);
     expect($this->angle->getMinutes(2))->toBe(28.68);
@@ -29,7 +31,8 @@ test('getMinutes', function () {
 });
 
 test('getSeconds', function () {
-    expect($this->angle->getSeconds())->toBe(41.0);
+    expect($this->angle->getSeconds())->toBe(40.5408);
+    expect($this->angle->getSeconds(-1))->toBe(40.0);
     expect($this->angle->getSeconds(0))->toBe(41.0);
     expect($this->angle->getSeconds(1))->toBe(40.5);
     expect($this->angle->getSeconds(2))->toBe(40.54);

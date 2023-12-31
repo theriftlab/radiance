@@ -38,18 +38,30 @@ abstract class Radiance implements RadianceInterface
         return $this->negative;
     }
 
-    public function getDegrees(int $decimalPoints = -1): float
+    public function getDegrees(?int $decimalPoints = null): float
     {
+        if (is_null($decimalPoints)) {
+            return $this->degrees;
+        }
+
         return $decimalPoints < 0 ? floor($this->degrees) : round($this->degrees, $decimalPoints);
     }
 
-    public function getMinutes(int $decimalPoints = -1): float
+    public function getMinutes(?int $decimalPoints = null): float
     {
+        if (is_null($decimalPoints)) {
+            return $this->minutes;
+        }
+
         return $decimalPoints < 0 ? floor($this->minutes) : round($this->minutes, $decimalPoints);
     }
 
-    public function getSeconds(int $decimalPoints = 0): float
+    public function getSeconds(?int $decimalPoints = null): float
     {
+        if (is_null($decimalPoints)) {
+            return $this->seconds;
+        }
+
         return $decimalPoints < 0 ? floor($this->seconds) : round($this->seconds, $decimalPoints);
     }
 

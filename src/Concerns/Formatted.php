@@ -21,21 +21,21 @@ trait Formatted
             '/\{S\}/' => fn () => $this->isNegative() ? '-' : '',
             '/\{SS\}/' => fn () => $this->isNegative() ? '-' : '+',
 
-            '/\{d\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getDegrees($match[1]), $match[1], false),
-            '/\{m\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getMinutes($match[1]), $match[1], false),
-            '/\{s\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getSeconds($match[1]), $match[1], false),
+            '/\{d(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($match[2] ?? null), $match[2] ?? null, false),
+            '/\{m(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($match[2] ?? null), $match[2] ?? null, false),
+            '/\{s(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($match[2] ?? null), $match[2] ?? null, false),
 
-            '/\{dd\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getDegrees($match[1]), $match[1], true),
-            '/\{mm\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getMinutes($match[1]), $match[1], true),
-            '/\{ss\.(-?\d+)\}/' => fn ($match) => static::formatValue($this->getSeconds($match[1]), $match[1], true),
+            '/\{dd(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($match[2] ?? null), $match[2] ?? null, true),
+            '/\{mm(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($match[2] ?? null), $match[2] ?? null, true),
+            '/\{ss(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($match[2] ?? null), $match[2] ?? null, true),
 
             ...$this->getFormatPlaceholders(),
         ];
     }
 
-    protected static function formatValue(float $value, int $decimalPoints, bool $leadingZero): string
+    protected static function formatValue(float $value, ?int $decimalPoints, bool $leadingZero): string
     {
-        $value = number_format($value, $decimalPoints);
+        $value = is_null($decimalPoints) ? (string)$value : number_format($value, $decimalPoints);
 
         return $leadingZero && $value < 10 ? "0$value" : $value;
     }
