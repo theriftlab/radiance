@@ -190,7 +190,7 @@ To pass your own format, the following placeholders are available for all class 
 | --- | --- |
 | `{S}` | Sign: a `-` symbol if the angle is negative, otherwise nothing. |
 | `{SS}` | Sign: a `-` symbol if the angle is negative, otherwise `+`. |
-| `{d.X}` | Degrees, rounded to `X` places, identical to the `$decimalPoints` parameter described above in the [operations](#operations) table. To pass `null` simply omit the decimal point, ie. `{d}`. |
+| `{d.X}` | Degrees, rounded to `X` places, identical to the `$decimalPoints` parameter described above in the [functions](#functions) table. To pass `null` simply omit the decimal point, ie. `{d}`. |
 | `{m.X}` | The same as above, but for minutes. |
 | `{s.X}` | The same as above, but for seconds. |
 | `{dd.X}` | Degrees as above, but with leading zero. |
