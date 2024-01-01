@@ -17,7 +17,7 @@ class Longitude extends BaseAngle implements AngleInterface
 
     protected static bool $normalize = false;
 
-    protected static string $defaultFormat = '{d.-1}{D}{m.2}';
+    protected static string $defaultFormat = '{d.-1}{D}{m.2f}';
 
     protected static function formatPlaceholders(RadianceInterface $instance): array
     {

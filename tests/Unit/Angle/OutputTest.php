@@ -74,7 +74,8 @@ test('toString degree placeholder precision', function () {
 
     expect($this->smallAngle->toString('{dd.-1}'))->toBe('01');
     expect($this->smallAngle->toString('{dd.0}'))->toBe('01');
-    expect($this->smallAngle->toString('{dd.1}'))->toBe('01.0');
+    expect($this->smallAngle->toString('{dd.1}'))->toBe('01');
+    expect($this->smallAngle->toString('{dd.1f}'))->toBe('01.0');
     expect($this->smallAngle->toString('{dd.2}'))->toBe('01.04');
     expect($this->smallAngle->toString('{dd.3}'))->toBe('01.035');
 });
@@ -91,7 +92,8 @@ test('toString minute placeholder precision', function () {
     expect($this->smallAngle->toString('{mm.-1}'))->toBe('02');
     expect($this->smallAngle->toString('{mm.0}'))->toBe('02');
     expect($this->smallAngle->toString('{mm.1}'))->toBe('02.1');
-    expect($this->smallAngle->toString('{mm.2}'))->toBe('02.10');
+    expect($this->smallAngle->toString('{mm.2}'))->toBe('02.1');
+    expect($this->smallAngle->toString('{mm.2f}'))->toBe('02.10');
 });
 
 test('toString second placeholder precision', function () {
@@ -104,6 +106,8 @@ test('toString second placeholder precision', function () {
 
     expect($this->smallAngle->toString('{ss.-1}'))->toBe('06');
     expect($this->smallAngle->toString('{ss.0}'))->toBe('06');
-    expect($this->smallAngle->toString('{ss.1}'))->toBe('06.0');
-    expect($this->smallAngle->toString('{ss.2}'))->toBe('06.00');
+    expect($this->smallAngle->toString('{ss.1}'))->toBe('06');
+    expect($this->smallAngle->toString('{ss.1f}'))->toBe('06.0');
+    expect($this->smallAngle->toString('{ss.2}'))->toBe('06');
+    expect($this->smallAngle->toString('{ss.2f}'))->toBe('06.00');
 });

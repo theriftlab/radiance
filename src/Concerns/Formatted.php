@@ -4,6 +4,13 @@ namespace RiftLab\Radiance\Concerns;
 
 trait Formatted
 {
+    protected static int $precision = 8;
+
+    public static function setPrecision(int $precision)
+    {
+        static::$precision = $precision;
+    }
+
     abstract public function getDefaultFormat(): string;
 
     abstract public function getFormatPlaceholders(): array;
@@ -20,23 +27,42 @@ trait Formatted
         return [
             '/\{S\}/' => fn () => $this->isNegative() ? '-' : '',
             '/\{SS\}/' => fn () => $this->isNegative() ? '-' : '+',
-
-            '/\{d(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($dp = $match[2] ?? null), $dp, false),
-            '/\{m(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($dp = $match[2] ?? null), $dp, false),
-            '/\{s(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($dp = $match[2] ?? null), $dp, false),
-
-            '/\{dd(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getDegrees($dp = $match[2] ?? null), $dp, true),
-            '/\{mm(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getMinutes($dp = $match[2] ?? null), $dp, true),
-            '/\{ss(\.(-?\d+))?\}/' => fn ($match) => static::formatValue($this->getSeconds($dp = $match[2] ?? null), $dp, true),
-
+            '/\{([dms]{1,2})(\.(-?\d+)(f?))?\}/' => fn ($matches) => $this->formatValue($matches),
             ...$this->getFormatPlaceholders(),
         ];
     }
 
-    protected static function formatValue(float $value, ?int $decimalPoints, bool $leadingZero): string
+    protected function formatValue(array $matches): string
     {
-        $value = is_null($decimalPoints) ? (string)$value : number_format($value, $decimalPoints);
+        $decimalPlaces = isset($matches[3]) ? intval($matches[3]) : null;
 
-        return $leadingZero && $value < 10 ? "0$value" : $value;
+        $value = match($matches[1]) {
+            'd', 'dd' => $this->getDegrees($decimalPlaces),
+            'm', 'mm' => $this->getMinutes($decimalPlaces),
+            's', 'ss' => $this->getSeconds($decimalPlaces),
+            default => 0.0,
+        };
+
+        $leadingZero = strlen($matches[1]) === 2;
+
+        if (! is_null($decimalPlaces) && $decimalPlaces <= 0) {
+            $output = sprintf('%0*d', $leadingZero ? 2 : 1, $value);
+        } else {
+            if ($decimalPlaces > 0) {
+                $forceDecimalPlaces = ! empty($matches[4]);
+            } else {
+                $decimalPlaces = static::$precision;
+                $forceDecimalPlaces = false;
+            }
+
+            $minDigits = $decimalPlaces + ($leadingZero ? 3 : 2);
+            $output = sprintf('%0*.*f', $minDigits, $decimalPlaces, $value);
+
+            if (! $forceDecimalPlaces) {
+                $output = preg_replace('/\.?0+$/', '', $output);
+            }
+        }
+
+        return $output;
     }
 }

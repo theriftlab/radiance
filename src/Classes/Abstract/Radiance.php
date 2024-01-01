@@ -38,31 +38,31 @@ abstract class Radiance implements RadianceInterface
         return $this->negative;
     }
 
-    public function getDegrees(?int $decimalPoints = null): float
+    public function getDegrees(?int $decimalPlaces = null): float
     {
-        if (is_null($decimalPoints)) {
+        if (is_null($decimalPlaces)) {
             return $this->degrees;
         }
 
-        return $decimalPoints < 0 ? floor($this->degrees) : round($this->degrees, $decimalPoints);
+        return $decimalPlaces < 0 ? floor($this->degrees) : round($this->degrees, $decimalPlaces);
     }
 
-    public function getMinutes(?int $decimalPoints = null): float
+    public function getMinutes(?int $decimalPlaces = null): float
     {
-        if (is_null($decimalPoints)) {
+        if (is_null($decimalPlaces)) {
             return $this->minutes;
         }
 
-        return $decimalPoints < 0 ? floor($this->minutes) : round($this->minutes, $decimalPoints);
+        return $decimalPlaces < 0 ? floor($this->minutes) : round($this->minutes, $decimalPlaces);
     }
 
-    public function getSeconds(?int $decimalPoints = null): float
+    public function getSeconds(?int $decimalPlaces = null): float
     {
-        if (is_null($decimalPoints)) {
+        if (is_null($decimalPlaces)) {
             return $this->seconds;
         }
 
-        return $decimalPoints < 0 ? floor($this->seconds) : round($this->seconds, $decimalPoints);
+        return $decimalPlaces < 0 ? floor($this->seconds) : round($this->seconds, $decimalPlaces);
     }
 
     public function toDecimal(): float
