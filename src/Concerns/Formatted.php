@@ -46,11 +46,14 @@ trait Formatted
         $leadingZero = strlen($matches[1]) === 2;
 
         if (! is_null($decimalPlaces) && $decimalPlaces <= 0) {
+            // No decimal places
             $output = sprintf('%0*d', $leadingZero ? 2 : 1, $value);
         } else {
             if ($decimalPlaces > 0) {
+                // Specified number of decimal places
                 $forceDecimalPlaces = ! empty($matches[4]);
             } else {
+                // Arbitrary number of decimal places
                 $decimalPlaces = static::$precision;
                 $forceDecimalPlaces = false;
             }
