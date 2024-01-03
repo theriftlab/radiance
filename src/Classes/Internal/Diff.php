@@ -17,7 +17,7 @@ class Diff extends Radiance implements DiffInterface
         protected AngleInterface $to,
     )
     {
-        parent::__construct(Calculate::distance($from->toDecimal(), $to->toDecimal()));
+        parent::__construct(Calculate::distance($from->toBCDecimal(), $to->toBCDecimal()));
     }
 
     public function getDefaultFormat(): string

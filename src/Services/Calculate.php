@@ -4,75 +4,95 @@ namespace RiftLab\Radiance\Services;
 
 class Calculate
 {
-    protected static int $precision = 20;
+    protected static int $precision = 30;
 
-    public static function setPrecision(int $precision): void
+    protected static int $floatPrecision = 8;
+
+    public static function isNegative(string $angle): bool
     {
-        static::$precision = $precision;
+        return bccomp($angle, 0, static::$precision) === -1;
     }
 
-    public static function add(float $angle1, float $angle2, bool $normalize): float
+    public static function abs(string $angle): string
     {
-        $sum = bcadd($angle1, $angle2, static::$precision+1);
-
-        return $normalize ? static::normalize($sum) : round($sum, static::$precision);
+        return bccomp($angle, 0, static::$precision) === -1 ? bcmul($angle, -1, static::$precision) : $angle;
     }
 
-    public static function sub(float $angle1, float $angle2, bool $normalize): float
+    public static function toFloat(string $value, ?int $decimalPlaces): float
     {
-        $difference = bcsub($angle1, $angle2, static::$precision+1);
+        $value = round($value, static::$floatPrecision);
 
-        return $normalize ? static::normalize($difference) : round($difference, static::$precision);
+        if (is_null($decimalPlaces)) {
+            return $value;
+        }
+
+        return $decimalPlaces < 0 ? floor($value) : round($value, $decimalPlaces);
     }
 
-    public static function distance(float $angle1, float $angle2): float
+    public static function add(string $angle1, string $angle2, bool $normalize): string
     {
-        $clockwise = static::normalize(bcadd(bcsub($angle2, $angle1, static::$precision+1), 360, static::$precision+1));
-        $counterClockwise = static::normalize(bcadd(bcsub($angle1, $angle2, static::$precision+1), 360, static::$precision+1));
-        $distance = round(min($clockwise, $counterClockwise), static::$precision);
+        $sum = bcadd($angle1, $angle2, static::$precision);
 
-        return $clockwise > $counterClockwise ? -$distance : $distance;
+        return $normalize ? static::normalize($sum) : $sum;
     }
 
-    public static function midpoint(float $angle1, float $angle2): float
+    public static function sub(string $angle1, string $angle2, bool $normalize): string
+    {
+        $difference = bcsub($angle1, $angle2, static::$precision);
+
+        return $normalize ? static::normalize($difference) : $difference;
+    }
+
+    public static function distance(string $angle1, string $angle2): string
+    {
+        $clockwise = static::normalize(bcadd(bcsub($angle2, $angle1, static::$precision), 360, static::$precision));
+        $counterClockwise = static::normalize(bcadd(bcsub($angle1, $angle2, static::$precision), 360, static::$precision));
+
+        return bccomp($clockwise, $counterClockwise, static::$precision) > 0 ? bcmul($counterClockwise, -1, static::$precision) : $clockwise;
+    }
+
+    public static function midpoint(string $angle1, string $angle2): string
     {
         $distance = static::distance($angle1, $angle2);
+        $addTo = static::isNegative($distance) && bccomp($distance, 180, static::$precision) !== 0 ? $angle2 : $angle1;
 
-        return static::normalize(bcadd(($distance < 0 && $distance !== 180.0 ? $angle2 : $angle1), bcdiv(abs($distance), 2, static::$precision+1), static::$precision+1));
+        return static::normalize(bcadd($addTo, bcdiv(static::abs($distance), 2, static::$precision), static::$precision));
     }
 
-    public static function normalize(float $angle, int $size = 360): float
+    public static function normalize(string $angle, int $size = 360): string
     {
-        return round(bcmod($angle, $size, static::$precision+1), static::$precision);
+        return bcmod($angle, $size, static::$precision);
     }
 
-    public static function decimalFrom(float | string $angle): float
+    public static function decimalFrom(float | string $angle): string
     {
         if (is_numeric($angle)) {
-            $decimalAngle = floatval($angle);
+            return $angle;
         } else {
             $values = array_values(array_pad(array_filter(mb_split('([^0-9\.-])', $angle), 'strlen'), 3, 0.0));
 
-            $decimalAngle = array_sum(array_map(
-                    fn ($value, $index) => round(bcdiv(abs($value), bcpow(60, $index), static::$precision+1), static::$precision),
+            $arrayAngle = array_map(
+                    fn ($value, $index) => bcdiv(abs($value), bcpow(60, $index), static::$precision),
                     $values,
                     array_keys($values)
-                ));
+                );
+
+            $decimalAngle = array_reduce($arrayAngle, fn ($carry, $item) => bcadd($carry, $item, static::$precision), 0);
 
             if ($values[0] < 0 || preg_match('/s|w/i', $angle) > 0) {
-                $decimalAngle *= -1;
+                $decimalAngle = bcmul($decimalAngle, -1, static::$precision);
             }
         }
 
         return $decimalAngle;
     }
 
-    public static function arrayFrom(float $angle): array
+    public static function arrayFrom(string $angle): array
     {
-        $arrayAngle = [abs($angle), 0.0, 0.0];
+        $arrayAngle = [static::abs($angle), 0.0, 0.0];
 
         foreach ([1, 2] as $i) {
-            $arrayAngle[$i] = round(bcmul(bcsub($arrayAngle[$i-1], intval($arrayAngle[$i-1]), static::$precision), 60, static::$precision+1), static::$precision);
+            $arrayAngle[$i] = bcmul(bcsub($arrayAngle[$i-1], intval($arrayAngle[$i-1]), static::$precision), 60, static::$precision);
         }
 
         return $arrayAngle;

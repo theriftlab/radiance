@@ -48,12 +48,12 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     public function add(AngleInterface | float $angle): AngleInterface
     {
-        return static::make(Calculate::add($this->toDecimal(), $this->getDecimalFrom($angle), static::$normalize));
+        return static::make(Calculate::add($this->toBCDecimal(), $this->getDecimalFrom($angle), static::$normalize));
     }
 
     public function sub(AngleInterface | float $angle): AngleInterface
     {
-        return static::make(Calculate::sub($this->toDecimal(), $this->getDecimalFrom($angle), static::$normalize));
+        return static::make(Calculate::sub($this->toBCDecimal(), $this->getDecimalFrom($angle), static::$normalize));
     }
 
     public function distanceTo(AngleInterface | float $angle): DiffInterface
@@ -68,12 +68,12 @@ abstract class BaseAngle extends Radiance implements AngleInterface
 
     public function midpointWith(AngleInterface | float $angle): AngleInterface
     {
-        return static::make(Calculate::midpoint($this->toDecimal(), $this->getDecimalFrom($angle)));
+        return static::make(Calculate::midpoint($this->toBCDecimal(), $this->getDecimalFrom($angle)));
     }
 
-    protected function getDecimalFrom(AngleInterface | float $angle): float
+    protected function getDecimalFrom(AngleInterface | float $angle): string
     {
-        return static::safeNormalize($angle instanceof AngleInterface ? $angle->toDecimal() : $angle);
+        return static::safeNormalize($angle instanceof AngleInterface ? $angle->toBCDecimal() : $angle);
     }
 
     protected function getAngleFrom(AngleInterface | float $angle): AngleInterface
@@ -81,11 +81,11 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return $angle instanceof AngleInterface ? $angle : static::make($angle);
     }
 
-    protected static function safeNormalize(float $angle): float
+    protected static function safeNormalize(string | float $angle): string
     {
         if (abs($angle) > static::$limit->value) {
             if (! static::$normalize) {
-                static::boundaryError($angle);
+                static::boundaryError(floatval($angle));
             }
 
             return Calculate::normalize($angle, static::$limit->value);

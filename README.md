@@ -151,10 +151,11 @@ The following functions are available for all class types, including `Diff`:
 | Method | Return Type | Parameters | Default | Description |
 | --- | --- | --- | --- | --- |
 | `isNegative()` | `bool` | None | None | Returns whether the angle is negative. |
-| `getDegrees()` | `float` | `int $decimalPoints` | `null` | Returns the unsigned degrees portion of the angle. If decimal points are set to `-1` it will be `floor()`ed, passing `0` and upward will round it as normal, and `null` will simply return the full decimal value. |
-| `getMinutes()` | `float` | `int $decimalPoints` | `null` | The same as above but for minutes. |
-| `getSeconds()` | `float` | `int $decimalPoints` | `null` | The same as above but for seconds. |
-| `toDecimal()` | `float` | None | None | Returns the underlying `float` angle. |
+| `getDegrees()` | `float` | `int $decimalPlaces` | `null` | Returns the unsigned degrees portion of the angle. If decimal places are set to `-1` it will be `floor()`ed, and passing `0` and upward will round it as normal - **NOTE:** this is limited to 8 decimal places. Passing `null` will simply return the full decimal value - again, limited to 8 decimal places. |
+| `getMinutes()` | `float` | `int $decimalPlaces` | `null` | The same as above but for minutes. |
+| `getSeconds()` | `float` | `int $decimalPlaces` | `null` | The same as above but for seconds. |
+| `toDecimal()` | `float` | `int $decimalPlaces` | `null` | The same as above but returns the underlying `float` angle. Essentially the same as `getDegrees()` but signed. |
+| `toBCDecimal()` | `string` | None | None | Returns the underlying `float` angle's internal `BCMath` string. |
 | `toArray()` | `array` | None | None | Returns an array with the following elements:<br>* `direction`: either `-` or `+`.<br>* `degrees`: rounded-down `int` representing degrees.<br>* `minutes`: rounded-down `int` representing minutes.<br>* `seconds`: a `float` representing seconds. |
 | `toString()` | `string` | `string $format` | Dependent on type | Formats the angle as requested. See the [String Formatting](#string-formatting) section below for details. Calling this with no arguments will yield the default format depending on the calling instance's class type, as demonstrated in the examples above. |
 
@@ -190,10 +191,10 @@ To pass your own format, the following placeholders are available for all class 
 | --- | --- |
 | `{S}` | Sign: a `-` symbol if the angle is negative, otherwise nothing. |
 | `{SS}` | Sign: a `-` symbol if the angle is negative, otherwise `+`. |
-| `{d.X}` | Degrees, rounded to `X` places, identical to the `$decimalPoints` parameter described above in the [functions](#functions) table. To pass `null` simply omit the decimal point, ie. `{d}`. |
+| `{d.X}` | Degrees, rounded to `X` places, with `X` being analogous to the `$decimalPlaces` parameter described above in the [functions](#functions) table. To force `X` amount of decimal places regardless of trailing zeros, append `f` - eg. for 23.5° `{d.2}` will output `23.5` vs `{d.2f}` which will output `23.50`. To pass `null` simply omit the decimal point, ie. `{d}`. |
 | `{m.X}` | The same as above, but for minutes. |
 | `{s.X}` | The same as above, but for seconds. |
-| `{dd.X}` | Degrees as above, but with leading zero. |
+| `{dd.X}` | Degrees as above, but with leading zero to ensure double digits. |
 | `{mm.X}` | The same as above, but for minutes. |
 | `{ss.X}` | The same as above, but for seconds. |
 

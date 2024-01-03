@@ -9,27 +9,27 @@ abstract class Radiance implements RadianceInterface
 {
     protected bool $negative;
 
-    protected float $degrees;
+    protected string $degrees;
 
-    protected float $minutes;
+    protected string $minutes;
 
-    protected float $seconds;
+    protected string $seconds;
 
     protected array $array;
 
-    protected function __construct(protected float $angle)
+    protected function __construct(protected string $angle)
     {
-        $this->negative = $this->angle < 0;
+        $this->negative = Calculate::isNegative($angle);
 
-        $array = Calculate::arrayFrom($this->angle);
+        $array = Calculate::arrayFrom($angle);
 
         [$this->degrees, $this->minutes, $this->seconds] = $array;
 
         $this->array = [
-            'direction' => $this->isNegative() ? '-' : '+',
+            'direction' => $this->negative ? '-' : '+',
             'degrees' => intval($this->degrees),
             'minutes' => intval($this->minutes),
-            'seconds' => $this->seconds,
+            'seconds' => round($this->seconds, 8),
         ];
     }
 
@@ -40,32 +40,25 @@ abstract class Radiance implements RadianceInterface
 
     public function getDegrees(?int $decimalPlaces = null): float
     {
-        if (is_null($decimalPlaces)) {
-            return $this->degrees;
-        }
-
-        return $decimalPlaces < 0 ? floor($this->degrees) : round($this->degrees, $decimalPlaces);
+        return Calculate::toFloat($this->degrees, $decimalPlaces);
     }
 
     public function getMinutes(?int $decimalPlaces = null): float
     {
-        if (is_null($decimalPlaces)) {
-            return $this->minutes;
-        }
-
-        return $decimalPlaces < 0 ? floor($this->minutes) : round($this->minutes, $decimalPlaces);
+        return Calculate::toFloat($this->minutes, $decimalPlaces);
     }
 
     public function getSeconds(?int $decimalPlaces = null): float
     {
-        if (is_null($decimalPlaces)) {
-            return $this->seconds;
-        }
-
-        return $decimalPlaces < 0 ? floor($this->seconds) : round($this->seconds, $decimalPlaces);
+        return Calculate::toFloat($this->seconds, $decimalPlaces);
     }
 
-    public function toDecimal(): float
+    public function toDecimal(?int $decimalPlaces = null): float
+    {
+        return Calculate::toFloat($this->angle, $decimalPlaces);
+    }
+
+    public function toBCDecimal(): string
     {
         return $this->angle;
     }
