@@ -81,9 +81,9 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return $angle instanceof AngleInterface ? $angle : static::make($angle);
     }
 
-    protected static function safeNormalize(string | float $angle): string
+    protected static function safeNormalize(float | string $angle): string
     {
-        if (abs($angle) > static::$limit->value) {
+        if (Calculate::exceeds($angle, static::$limit->value)) {
             if (! static::$normalize) {
                 static::boundaryError(floatval($angle));
             }
@@ -91,7 +91,7 @@ abstract class BaseAngle extends Radiance implements AngleInterface
             return Calculate::normalize($angle, static::$limit->value);
         }
 
-        return $angle;
+        return (string)$angle;
     }
 
     protected static function boundaryError(float $angle): void

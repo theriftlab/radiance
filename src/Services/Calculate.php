@@ -10,12 +10,17 @@ class Calculate
 
     public static function isNegative(string $angle): bool
     {
-        return bccomp($angle, 0, static::$precision) === -1;
+        return bccomp($angle, '0', static::$precision) === -1;
     }
 
     public static function abs(string $angle): string
     {
-        return bccomp($angle, 0, static::$precision) === -1 ? bcmul($angle, -1, static::$precision) : $angle;
+        return static::isNegative($angle) ? bcmul($angle, '-1', static::$precision) : $angle;
+    }
+
+    public static function exceeds(string $angle, int $limit): bool
+    {
+        return bccomp(static::abs($angle), (string)$limit, static::$precision) === 1;
     }
 
     public static function toFloat(string $value, ?int $decimalPlaces): float
@@ -45,18 +50,18 @@ class Calculate
 
     public static function distance(string $angle1, string $angle2): string
     {
-        $clockwise = static::normalize(bcadd(bcsub($angle2, $angle1, static::$precision), 360, static::$precision));
-        $counterClockwise = static::normalize(bcadd(bcsub($angle1, $angle2, static::$precision), 360, static::$precision));
+        $clockwise = static::normalize(bcadd(bcsub($angle2, $angle1, static::$precision), '360', static::$precision));
+        $counterClockwise = static::normalize(bcadd(bcsub($angle1, $angle2, static::$precision), '360', static::$precision));
 
-        return bccomp($clockwise, $counterClockwise, static::$precision) > 0 ? bcmul($counterClockwise, -1, static::$precision) : $clockwise;
+        return bccomp($clockwise, $counterClockwise, static::$precision) > 0 ? bcmul($counterClockwise, '-1', static::$precision) : $clockwise;
     }
 
     public static function midpoint(string $angle1, string $angle2): string
     {
         $distance = static::distance($angle1, $angle2);
-        $addTo = static::isNegative($distance) && bccomp($distance, 180, static::$precision) !== 0 ? $angle2 : $angle1;
+        $addTo = static::isNegative($distance) && bccomp($distance, '180', static::$precision) !== 0 ? $angle2 : $angle1;
 
-        return static::normalize(bcadd($addTo, bcdiv(static::abs($distance), 2, static::$precision), static::$precision));
+        return static::normalize(bcadd($addTo, bcdiv(static::abs($distance), '2', static::$precision), static::$precision));
     }
 
     public static function normalize(string $angle, int $size = 360): string
@@ -67,21 +72,21 @@ class Calculate
     public static function decimalFrom(float | string $angle): string
     {
         if (is_numeric($angle)) {
-            return $angle;
-        } else {
-            $values = array_values(array_pad(array_filter(mb_split('([^0-9\.-])', $angle), 'strlen'), 3, 0.0));
+            return (string)$angle;
+        }
 
-            $arrayAngle = array_map(
-                    fn ($value, $index) => bcdiv(abs($value), bcpow(60, $index), static::$precision),
-                    $values,
-                    array_keys($values)
-                );
+        $values = array_values(array_pad(array_filter(mb_split('([^0-9\.-])', $angle), 'strlen'), 3, 0.0));
 
-            $decimalAngle = array_reduce($arrayAngle, fn ($carry, $item) => bcadd($carry, $item, static::$precision), 0);
+        $arrayAngle = array_map(
+            fn ($value, $index) => bcdiv(abs($value), bcpow('60', $index), static::$precision),
+            $values,
+            array_keys($values),
+        );
 
-            if ($values[0] < 0 || preg_match('/s|w/i', $angle) > 0) {
-                $decimalAngle = bcmul($decimalAngle, -1, static::$precision);
-            }
+        $decimalAngle = array_reduce($arrayAngle, fn ($carry, $item) => bcadd($carry, $item, static::$precision), 0);
+
+        if ($values[0] < 0 || preg_match('/s|w/i', $angle) > 0) {
+            $decimalAngle = bcmul($decimalAngle, '-1', static::$precision);
         }
 
         return $decimalAngle;
@@ -92,7 +97,7 @@ class Calculate
         $arrayAngle = [static::abs($angle), 0.0, 0.0];
 
         foreach ([1, 2] as $i) {
-            $arrayAngle[$i] = bcmul(bcsub($arrayAngle[$i-1], intval($arrayAngle[$i-1]), static::$precision), 60, static::$precision);
+            $arrayAngle[$i] = bcmul(bcsub($arrayAngle[$i-1], intval($arrayAngle[$i-1]), static::$precision), '60', static::$precision);
         }
 
         return $arrayAngle;
