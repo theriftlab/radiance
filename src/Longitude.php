@@ -27,7 +27,7 @@ class Longitude extends BaseAngle implements AngleInterface
         ];
     }
 
-    protected static function boundaryError(float $angle): void
+    protected static function throwBoundaryError(float $angle): void
     {
         throw new LongitudeBoundaryError($angle);
     }

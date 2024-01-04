@@ -85,9 +85,9 @@ abstract class BaseAngle extends Radiance implements AngleInterface
     {
         $stringAngle = (string)$angle;
 
-        if (Calculate::exceedsLimit($stringAngle, static::$limit->value)) {
+        if (Calculate::isBoundaryExceeded($stringAngle, static::$limit->value)) {
             if (! static::$normalize) {
-                static::boundaryError(floatval($angle));
+                static::throwBoundaryError(floatval($angle));
             }
 
             return Calculate::normalizeTo($stringAngle, static::$limit->value);
@@ -96,7 +96,7 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return $stringAngle;
     }
 
-    protected static function boundaryError(float $angle): void
+    protected static function throwBoundaryError(float $angle): void
     {
         throw new BoundaryError($angle);
     }

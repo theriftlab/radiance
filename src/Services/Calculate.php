@@ -4,7 +4,7 @@ namespace RiftLab\Radiance\Services;
 
 final class Calculate
 {
-    public static function exceedsLimit(string $angle, int $limit): bool
+    public static function isBoundaryExceeded(string $angle, int $limit): bool
     {
         return bccomp(Value::abs($angle), (string)$limit, Precision::forString()) === 1;
     }
