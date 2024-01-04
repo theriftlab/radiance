@@ -20,6 +20,6 @@ class Angle extends BaseAngle implements AngleInterface
 
     public function normalizeTo(int $size): Angle
     {
-        return new static(Calculate::normalize($this->toBCDecimal(), $size));
+        return new static(Calculate::normalizeTo($this->toRawDecimal(), $size));
     }
 }

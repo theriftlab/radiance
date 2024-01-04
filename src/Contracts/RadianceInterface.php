@@ -14,7 +14,7 @@ interface RadianceInterface
 
     public function toDecimal(): float;
 
-    public function toBCDecimal(): string;
+    public function toRawDecimal(): string;
 
     public function toArray(): array;
 

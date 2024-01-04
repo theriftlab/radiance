@@ -3,7 +3,9 @@
 namespace RiftLab\Radiance\Classes\Abstract;
 
 use RiftLab\Radiance\Contracts\RadianceInterface;
-use RiftLab\Radiance\Services\Calculate;
+use RiftLab\Radiance\Services\Convert;
+use RiftLab\Radiance\Services\Precision;
+use RiftLab\Radiance\Services\Value;
 
 abstract class Radiance implements RadianceInterface
 {
@@ -19,9 +21,9 @@ abstract class Radiance implements RadianceInterface
 
     protected function __construct(protected string $angle)
     {
-        $this->negative = Calculate::isNegative($angle);
+        $this->negative = Value::isNegative($angle);
 
-        $array = Calculate::arrayFrom($angle);
+        $array = Convert::toArray($angle);
 
         [$this->degrees, $this->minutes, $this->seconds] = $array;
 
@@ -29,7 +31,7 @@ abstract class Radiance implements RadianceInterface
             'direction' => $this->negative ? '-' : '+',
             'degrees' => intval($this->degrees),
             'minutes' => intval($this->minutes),
-            'seconds' => round($this->seconds, 8),
+            'seconds' => round($this->seconds, Precision::forFloat()),
         ];
     }
 
@@ -40,25 +42,25 @@ abstract class Radiance implements RadianceInterface
 
     public function getDegrees(?int $decimalPlaces = null): float
     {
-        return Calculate::toFloat($this->degrees, $decimalPlaces);
+        return Value::toFloat($this->degrees, $decimalPlaces);
     }
 
     public function getMinutes(?int $decimalPlaces = null): float
     {
-        return Calculate::toFloat($this->minutes, $decimalPlaces);
+        return Value::toFloat($this->minutes, $decimalPlaces);
     }
 
     public function getSeconds(?int $decimalPlaces = null): float
     {
-        return Calculate::toFloat($this->seconds, $decimalPlaces);
+        return Value::toFloat($this->seconds, $decimalPlaces);
     }
 
     public function toDecimal(?int $decimalPlaces = null): float
     {
-        return Calculate::toFloat($this->angle, $decimalPlaces);
+        return Value::toFloat($this->angle, $decimalPlaces);
     }
 
-    public function toBCDecimal(): string
+    public function toRawDecimal(): string
     {
         return $this->angle;
     }

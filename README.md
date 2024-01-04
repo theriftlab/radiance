@@ -155,7 +155,7 @@ The following functions are available for all class types, including `Diff`:
 | `getMinutes()` | `float` | `int $decimalPlaces` | `null` | The same as above but for minutes. |
 | `getSeconds()` | `float` | `int $decimalPlaces` | `null` | The same as above but for seconds. |
 | `toDecimal()` | `float` | `int $decimalPlaces` | `null` | The same as above but returns the underlying `float` angle. Essentially the same as `getDegrees()` but signed. |
-| `toBCDecimal()` | `string` | None | None | Returns the underlying `float` angle's internal `BCMath` string. |
+| `toRawDecimal()` | `string` | None | None | Returns the underlying `float` angle's internal string. |
 | `toArray()` | `array` | None | None | Returns an array with the following elements:<br>* `direction`: either `-` or `+`.<br>* `degrees`: rounded-down `int` representing degrees.<br>* `minutes`: rounded-down `int` representing minutes.<br>* `seconds`: a `float` representing seconds, rounded to a maximum 8 decimal places. |
 | `toString()` | `string` | `string $format` | Dependent on type | Formats the angle as requested. See the [String Formatting](#string-formatting) section below for details. Calling this with no arguments will yield the default format depending on the calling instance's class type, as demonstrated in the examples above. |
 
