@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Services;
 
-class Convert
+final class Convert
 {
     public static function toRawDecimal(float | string $angle): string
     {

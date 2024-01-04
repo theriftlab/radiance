@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Services;
 
-class Calculate
+final class Calculate
 {
     public static function exceedsLimit(string $angle, int $limit): bool
     {

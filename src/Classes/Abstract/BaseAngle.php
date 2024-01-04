@@ -24,7 +24,7 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return [];
     }
 
-    public static function make(float | string $angle): AngleInterface
+    final public static function make(float | string $angle): AngleInterface
     {
         $decimalAngle = Convert::toRawDecimal($angle);
         $normalized = static::safeNormalize($decimalAngle);
@@ -32,57 +32,57 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return new static($normalized);
     }
 
-    public function getDefaultFormat(): string
+    final public function getDefaultFormat(): string
     {
         return static::$defaultFormat;
     }
 
-    public function getFormatPlaceholders(): array
+    final public function getFormatPlaceholders(): array
     {
         return static::formatPlaceholders($this);
     }
 
-    public function getFormatPlaceholdersFor(RadianceInterface $instance): array
+    final public function getFormatPlaceholdersFor(RadianceInterface $instance): array
     {
         return static::formatPlaceholders($instance);
     }
 
-    public function add(AngleInterface | float $angle): AngleInterface
+    final public function add(AngleInterface | float $angle): AngleInterface
     {
         return static::make(Calculate::add($this->toRawDecimal(), static::getRawDecimalFrom($angle), static::$normalize));
     }
 
-    public function sub(AngleInterface | float $angle): AngleInterface
+    final public function sub(AngleInterface | float $angle): AngleInterface
     {
         return static::make(Calculate::sub($this->toRawDecimal(), static::getRawDecimalFrom($angle), static::$normalize));
     }
 
-    public function distanceTo(AngleInterface | float $angle): DiffInterface
+    final public function distanceTo(AngleInterface | float $angle): DiffInterface
     {
         return new Diff($this, static::getAngleFrom($angle));
     }
 
-    public function distanceFrom(AngleInterface | float $angle): DiffInterface
+    final public function distanceFrom(AngleInterface | float $angle): DiffInterface
     {
         return new Diff(static::getAngleFrom($angle), $this);
     }
 
-    public function midpointWith(AngleInterface | float $angle): AngleInterface
+    final public function midpointWith(AngleInterface | float $angle): AngleInterface
     {
         return static::make(Calculate::midpointBetween($this->toRawDecimal(), static::getRawDecimalFrom($angle)));
     }
 
-    protected static function getRawDecimalFrom(AngleInterface | float $angle): string
+    private static function getRawDecimalFrom(AngleInterface | float $angle): string
     {
         return static::safeNormalize($angle instanceof AngleInterface ? $angle->toRawDecimal() : $angle);
     }
 
-    protected static function getAngleFrom(AngleInterface | float $angle): AngleInterface
+    private static function getAngleFrom(AngleInterface | float $angle): AngleInterface
     {
         return $angle instanceof AngleInterface ? $angle : static::make($angle);
     }
 
-    protected static function safeNormalize(float | string $angle): string
+    private static function safeNormalize(float | string $angle): string
     {
         $stringAngle = (string)$angle;
 

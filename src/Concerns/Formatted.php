@@ -2,15 +2,10 @@
 
 namespace RiftLab\Radiance\Concerns;
 
+use RiftLab\Radiance\Services\Precision;
+
 trait Formatted
 {
-    protected static int $precision = 8;
-
-    public static function setPrecision(int $precision)
-    {
-        static::$precision = $precision;
-    }
-
     abstract public function getDefaultFormat(): string;
 
     abstract public function getFormatPlaceholders(): array;
@@ -54,7 +49,7 @@ trait Formatted
                 $forceDecimalPlaces = ! empty($matches[4]);
             } else {
                 // Arbitrary number of decimal places
-                $decimalPlaces = static::$precision;
+                $decimalPlaces = Precision::forFloat();
                 $forceDecimalPlaces = false;
             }
 

@@ -2,11 +2,11 @@
 
 namespace RiftLab\Radiance\Services;
 
-class Precision
+final class Precision
 {
-    protected static int $string = 30;
+    private static int $string = 30;
 
-    protected static int $float = 8;
+    private static int $float = 8;
 
     public static function setForString(int $precision): void
     {

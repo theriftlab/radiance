@@ -9,17 +9,17 @@ use RiftLab\Radiance\Services\Value;
 
 abstract class Radiance implements RadianceInterface
 {
-    protected bool $negative;
+    private bool $negative;
 
-    protected string $degrees;
+    private string $degrees;
 
-    protected string $minutes;
+    private string $minutes;
 
-    protected string $seconds;
+    private string $seconds;
 
-    protected array $array;
+    private array $array;
 
-    protected function __construct(protected string $angle)
+    protected function __construct(private string $angle)
     {
         $this->negative = Value::isNegative($angle);
 
@@ -35,44 +35,44 @@ abstract class Radiance implements RadianceInterface
         ];
     }
 
-    public function isNegative(): bool
+    final public function isNegative(): bool
     {
         return $this->negative;
     }
 
-    public function getDegrees(?int $decimalPlaces = null): float
+    final public function getDegrees(?int $decimalPlaces = null): float
     {
         return Value::toFloat($this->degrees, $decimalPlaces);
     }
 
-    public function getMinutes(?int $decimalPlaces = null): float
+    final public function getMinutes(?int $decimalPlaces = null): float
     {
         return Value::toFloat($this->minutes, $decimalPlaces);
     }
 
-    public function getSeconds(?int $decimalPlaces = null): float
+    final public function getSeconds(?int $decimalPlaces = null): float
     {
         return Value::toFloat($this->seconds, $decimalPlaces);
     }
 
-    public function toDecimal(?int $decimalPlaces = null): float
+    final public function toDecimal(?int $decimalPlaces = null): float
     {
         return Value::toFloat($this->angle, $decimalPlaces);
     }
 
-    public function toRawDecimal(): string
+    final public function toRawDecimal(): string
     {
         return $this->angle;
     }
 
-    public function toArray(): array
+    final public function toArray(): array
     {
         return $this->array;
     }
 
     abstract public function toString(): string;
 
-    public function __toString(): string
+    final public function __toString(): string
     {
         return $this->toString();
     }

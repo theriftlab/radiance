@@ -8,13 +8,13 @@ use RiftLab\Radiance\Contracts\AngleInterface;
 use RiftLab\Radiance\Contracts\DiffInterface;
 use RiftLab\Radiance\Services\Calculate;
 
-class Diff extends Radiance implements DiffInterface
+final class Diff extends Radiance implements DiffInterface
 {
     use Formatted;
 
     public function __construct(
-        protected AngleInterface $from,
-        protected AngleInterface $to,
+        private AngleInterface $from,
+        private AngleInterface $to,
     )
     {
         parent::__construct(Calculate::distanceBetween($from->toRawDecimal(), $to->toRawDecimal()));

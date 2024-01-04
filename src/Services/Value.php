@@ -2,7 +2,7 @@
 
 namespace RiftLab\Radiance\Services;
 
-class Value
+final class Value
 {
     public static function isNegative(string $value): bool
     {
