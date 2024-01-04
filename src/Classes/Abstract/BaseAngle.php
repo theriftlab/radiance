@@ -5,7 +5,6 @@ namespace RiftLab\Radiance\Classes\Abstract;
 use RiftLab\Radiance\Classes\Exceptions\BoundaryError;
 use RiftLab\Radiance\Classes\Internal\Diff;
 use RiftLab\Radiance\Contracts\AngleInterface;
-use RiftLab\Radiance\Contracts\DiffInterface;
 use RiftLab\Radiance\Contracts\RadianceInterface;
 use RiftLab\Radiance\Enum\Limit;
 use RiftLab\Radiance\Services\Calculate;
@@ -57,12 +56,12 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return static::make(Calculate::sub($this->toRawDecimal(), static::getRawDecimalFrom($angle), static::$normalize));
     }
 
-    final public function distanceTo(AngleInterface | float $angle): DiffInterface
+    final public function distanceTo(AngleInterface | float $angle): RadianceInterface
     {
         return new Diff($this, static::getAngleFrom($angle));
     }
 
-    final public function distanceFrom(AngleInterface | float $angle): DiffInterface
+    final public function distanceFrom(AngleInterface | float $angle): RadianceInterface
     {
         return new Diff(static::getAngleFrom($angle), $this);
     }

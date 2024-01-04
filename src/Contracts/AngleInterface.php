@@ -12,9 +12,9 @@ interface AngleInterface extends RadianceInterface, FormattedInterface
 
     public function sub(AngleInterface | float $angle): AngleInterface;
 
-    public function distanceTo(AngleInterface | float $angle): DiffInterface;
+    public function distanceTo(AngleInterface | float $angle): RadianceInterface;
 
-    public function distanceFrom(AngleInterface | float $angle): DiffInterface;
+    public function distanceFrom(AngleInterface | float $angle): RadianceInterface;
 
     public function midpointWith(AngleInterface | float $angle): AngleInterface;
 }

@@ -56,17 +56,6 @@ test('distanceFrom', function () {
     expect(Angle::make(-560)->distanceFrom(-190)->toDecimal())->toBe(-$distanceTo);
 });
 
-test('diff', function () {
-    $diff1 = $this->angle->distanceTo($this->smallAngle);
-    $diff2 = $this->angle->distanceFrom($this->smallAngle);
-
-    expect($diff1->getFrom())->toEqual($this->angle);
-    expect($diff1->getTo())->toEqual($this->smallAngle);
-
-    expect($diff2->getFrom())->toEqual($this->smallAngle);
-    expect($diff2->getTo())->toEqual($this->angle);
-});
-
 test('midpointWith', function () {
     expect($this->angle->midpointWith($this->angle)->toDecimal())->toBe($this->angle->toDecimal());
 
