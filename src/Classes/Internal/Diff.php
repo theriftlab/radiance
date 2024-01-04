@@ -5,10 +5,11 @@ namespace RiftLab\Radiance\Classes\Internal;
 use RiftLab\Radiance\Classes\Abstract\Radiance;
 use RiftLab\Radiance\Concerns\Formatted;
 use RiftLab\Radiance\Contracts\AngleInterface;
+use RiftLab\Radiance\Contracts\FormattedInterface;
 use RiftLab\Radiance\Contracts\RadianceInterface;
 use RiftLab\Radiance\Services\Calculate;
 
-final class Diff extends Radiance implements RadianceInterface
+final class Diff extends Radiance implements RadianceInterface, FormattedInterface
 {
     use Formatted;
 
