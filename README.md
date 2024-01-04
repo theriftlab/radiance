@@ -182,8 +182,8 @@ The `toString()` function accepts a string of placeholders to dictate its format
 | Class | Format String | Output |
 | --- | --- | --- |
 | `Angle` | `'{D}{dd.-1}°{mm.-1}\'{ss.0}"'` | Degrees, minutes, and seconds with leading zeroes. Seconds are rounded, and the output is prefixed by a `-` sign if negative. |
-| `Latitude` | `'{d.-1}{D}{m.2}'` | Geographical latitude. Degrees, North / South direction, and a decimal minute rounded to two places. |
-| `Longitude` | `'{d.-1}{D}{m.2}'` | Geographical longitude. Similar to above: degrees, West / East direction, and a decimal minute rounded to two places. |
+| `Latitude` | `'{d.-1}{D}{m.2f}'` | Geographical latitude. Degrees, North / South direction, and a decimal minute rounded to two places. |
+| `Longitude` | `'{d.-1}{D}{m.2f}'` | Geographical longitude. Similar to above: degrees, West / East direction, and a decimal minute rounded to two places. |
 
 To pass your own format, the following placeholders are available for all class types:
 
