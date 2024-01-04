@@ -85,11 +85,11 @@ echo $lat->midpointWith(10);
 // Output: 20s44.34
 
 echo $lat->sub(40);
-// Below -90°: LatitudeBoundaryException thrown
+// Below -90°: LatitudeBoundaryError thrown
 
 $dist = Angle::make(40);
 echo $lat->sub($dist);
-// LatitudeBoundaryException still thrown
+// LatitudeBoundaryError still thrown
 ```
 
 ### Negative Angles
