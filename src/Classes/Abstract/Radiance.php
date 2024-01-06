@@ -31,7 +31,7 @@ abstract class Radiance implements RadianceInterface
             'direction' => $this->negative ? '-' : '+',
             'degrees' => intval($this->degrees),
             'minutes' => intval($this->minutes),
-            'seconds' => round($this->seconds, Precision::forFloat()),
+            'seconds' => $this->getSeconds(),
         ];
     }
 

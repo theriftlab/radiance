@@ -16,12 +16,13 @@ final class Value
 
     public static function toFloat(string $value, ?int $decimalPlaces): float
     {
-        $value = round(floatval($value), Precision::forFloat());
+        $floatValue = floatval($value);
+        $float = $decimalPlaces < 0 ? floor($floatValue) : round($floatValue, $decimalPlaces ?? Precision::forFloat());
 
-        if (is_null($decimalPlaces)) {
-            return $value;
+        if ($float === 0.0 && static::isNegative($value)) {
+            $float = 0.0;
         }
 
-        return $decimalPlaces < 0 ? floor($value) : round($value, $decimalPlaces);
+        return $float;
     }
 }
