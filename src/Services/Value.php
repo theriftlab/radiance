@@ -4,6 +4,11 @@ namespace RiftLab\Radiance\Services;
 
 final class Value
 {
+    public static function isNumeric(string $value): bool
+    {
+        return preg_match('/^-?\d+(?:\.\d+)?$/', $value);
+    }
+
     public static function isNegative(string $value): bool
     {
         return $value[0] === '-';

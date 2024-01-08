@@ -6,8 +6,12 @@ final class Convert
 {
     public static function toRawDecimal(float | string $angle): string
     {
-        if (is_numeric($angle)) {
+        if (is_float($angle)) {
             return (string)$angle;
+        }
+
+        if (Value::isNumeric($angle)) {
+            return $angle;
         }
 
         $values = array_values(array_pad(array_filter(mb_split('([^0-9\.-])', $angle), 'strlen'), 3, 0.0));
