@@ -1,6 +1,6 @@
 # Angle Alchemy
 
-Radiance provides simple, lightweight classes to make it easy for your PHP applications to convert between various angle and coordinate formats, and to perform common operations on them such as addition and subtraction, and finding distances and midpoints.
+Radiance provides simple, lightweight classes to make it easy for your PHP applications to deal with 360°-based angles, such as converting between various formats, adding and subtracting, and finding distances and midpoints.
 
 ## Installation
 
