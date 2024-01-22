@@ -22,8 +22,8 @@ class Latitude extends BaseAngle implements AngleInterface
     protected static function formatPlaceholders(RadianceInterface $instance): array
     {
         return [
-            '/\{D\}/' => fn () => $instance->isNegative() ? 's' : 'n',
-            '/\{DD\}/' => fn () => $instance->isNegative() ? 'S' : 'N',
+            '/\{D\}/' => fn() => $instance->isNegative() ? 's' : 'n',
+            '/\{DD\}/' => fn() => $instance->isNegative() ? 'S' : 'N',
         ];
     }
 

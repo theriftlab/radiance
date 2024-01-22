@@ -23,7 +23,7 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return [];
     }
 
-    final public static function make(float | string $angle): AngleInterface
+    final public static function make(float|string $angle): AngleInterface
     {
         $decimalAngle = Convert::toRawDecimal($angle);
         $normalized = static::safeNormalize($decimalAngle);
@@ -46,47 +46,47 @@ abstract class BaseAngle extends Radiance implements AngleInterface
         return static::formatPlaceholders($instance);
     }
 
-    final public function add(AngleInterface | float $angle): AngleInterface
+    final public function add(AngleInterface|float $angle): AngleInterface
     {
         return static::make(Calculate::add($this->toRawDecimal(), static::getRawDecimalFrom($angle), static::$normalize));
     }
 
-    final public function sub(AngleInterface | float $angle): AngleInterface
+    final public function sub(AngleInterface|float $angle): AngleInterface
     {
         return static::make(Calculate::sub($this->toRawDecimal(), static::getRawDecimalFrom($angle), static::$normalize));
     }
 
-    final public function distanceTo(AngleInterface | float $angle): RadianceInterface
+    final public function distanceTo(AngleInterface|float $angle): RadianceInterface
     {
         return new Diff($this, static::getAngleFrom($angle));
     }
 
-    final public function distanceFrom(AngleInterface | float $angle): RadianceInterface
+    final public function distanceFrom(AngleInterface|float $angle): RadianceInterface
     {
         return new Diff(static::getAngleFrom($angle), $this);
     }
 
-    final public function midpointWith(AngleInterface | float $angle): AngleInterface
+    final public function midpointWith(AngleInterface|float $angle): AngleInterface
     {
         return static::make(Calculate::midpointBetween($this->toRawDecimal(), static::getRawDecimalFrom($angle)));
     }
 
-    private static function getRawDecimalFrom(AngleInterface | float $angle): string
+    private static function getRawDecimalFrom(AngleInterface|float $angle): string
     {
         return static::safeNormalize($angle instanceof AngleInterface ? $angle->toRawDecimal() : $angle);
     }
 
-    private static function getAngleFrom(AngleInterface | float $angle): AngleInterface
+    private static function getAngleFrom(AngleInterface|float $angle): AngleInterface
     {
         return $angle instanceof AngleInterface ? $angle : static::make($angle);
     }
 
-    private static function safeNormalize(float | string $angle): string
+    private static function safeNormalize(float|string $angle): string
     {
-        $stringAngle = (string)$angle;
+        $stringAngle = (string) $angle;
 
         if (Calculate::isBoundaryExceeded($stringAngle, static::$limit->value)) {
-            if (! static::$normalize) {
+            if (!static::$normalize) {
                 static::throwBoundaryError(floatval($angle));
             }
 

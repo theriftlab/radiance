@@ -22,8 +22,8 @@ class Longitude extends BaseAngle implements AngleInterface
     protected static function formatPlaceholders(RadianceInterface $instance): array
     {
         return [
-            '/\{D\}/' => fn () => $instance->isNegative() ? 'w' : 'e',
-            '/\{DD\}/' => fn () => $instance->isNegative() ? 'W' : 'E',
+            '/\{D\}/' => fn() => $instance->isNegative() ? 'w' : 'e',
+            '/\{DD\}/' => fn() => $instance->isNegative() ? 'W' : 'E',
         ];
     }
 

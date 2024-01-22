@@ -6,7 +6,7 @@ final class Calculate
 {
     public static function isBoundaryExceeded(string $angle, int $limit): bool
     {
-        return bccomp(Value::abs($angle), (string)$limit, Precision::forString()) === 1;
+        return bccomp(Value::abs($angle), (string) $limit, Precision::forString()) === 1;
     }
 
     public static function add(string $angle1, string $angle2, bool $normalize): string

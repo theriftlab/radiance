@@ -20,9 +20,9 @@ trait Formatted
     protected function getMergedFormatPlaceholders(): array
     {
         return [
-            '/\{S\}/' => fn () => $this->isNegative() ? '-' : '',
-            '/\{SS\}/' => fn () => $this->isNegative() ? '-' : '+',
-            '/\{([dms]{1,2})(\.(-?\d+)(f?))?\}/' => fn ($matches) => $this->formatValue($matches),
+            '/\{S\}/' => fn() => $this->isNegative() ? '-' : '',
+            '/\{SS\}/' => fn() => $this->isNegative() ? '-' : '+',
+            '/\{([dms]{1,2})(\.(-?\d+)(f?))?\}/' => fn($matches) => $this->formatValue($matches),
             ...$this->getFormatPlaceholders(),
         ];
     }
@@ -31,7 +31,7 @@ trait Formatted
     {
         $decimalPlaces = isset($matches[3]) ? intval($matches[3]) : null;
 
-        $value = match($matches[1]) {
+        $value = match ($matches[1]) {
             'd', 'dd' => $this->getDegrees($decimalPlaces),
             'm', 'mm' => $this->getMinutes($decimalPlaces),
             's', 'ss' => $this->getSeconds($decimalPlaces),
@@ -40,13 +40,13 @@ trait Formatted
 
         $leadingZero = strlen($matches[1]) === 2;
 
-        if (! is_null($decimalPlaces) && $decimalPlaces <= 0) {
+        if (!is_null($decimalPlaces) && $decimalPlaces <= 0) {
             // No decimal places
             $output = sprintf('%0*d', $leadingZero ? 2 : 1, $value);
         } else {
             if ($decimalPlaces > 0) {
                 // Specified number of decimal places
-                $forceDecimalPlaces = ! empty($matches[4]);
+                $forceDecimalPlaces = !empty($matches[4]);
             } else {
                 // Arbitrary number of decimal places
                 $decimalPlaces = Precision::forFloat();
@@ -56,7 +56,7 @@ trait Formatted
             $minDigits = $decimalPlaces + ($leadingZero ? 3 : 2);
             $output = sprintf('%0*.*f', $minDigits, $decimalPlaces, $value);
 
-            if (! $forceDecimalPlaces) {
+            if (!$forceDecimalPlaces) {
                 $output = preg_replace('/\.?0+$/', '', $output);
             }
         }

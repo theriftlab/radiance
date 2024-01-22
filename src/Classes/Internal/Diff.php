@@ -16,8 +16,7 @@ final class Diff extends Radiance implements RadianceInterface, FormattedInterfa
     public function __construct(
         private AngleInterface $from,
         AngleInterface $to,
-    )
-    {
+    ) {
         parent::__construct(Calculate::distanceBetween($from->toRawDecimal(), $to->toRawDecimal()));
     }
 
