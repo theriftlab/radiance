@@ -4,7 +4,6 @@ namespace RiftLab\Radiance\Classes\Abstract;
 
 use RiftLab\Radiance\Contracts\RadianceInterface;
 use RiftLab\Radiance\Services\Convert;
-use RiftLab\Radiance\Services\Precision;
 use RiftLab\Radiance\Services\Value;
 
 abstract class Radiance implements RadianceInterface
