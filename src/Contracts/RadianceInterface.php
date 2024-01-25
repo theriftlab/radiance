@@ -6,13 +6,13 @@ interface RadianceInterface
 {
     public function isNegative(): bool;
 
-    public function getDegrees(): float;
+    public function getDegrees(?int $decimalPlaces = null): float;
 
-    public function getMinutes(): float;
+    public function getMinutes(?int $decimalPlaces = null): float;
 
-    public function getSeconds(): float;
+    public function getSeconds(?int $decimalPlaces = null): float;
 
-    public function toDecimal(): float;
+    public function toDecimal(?int $decimalPlaces = null): float;
 
     public function toRawDecimal(): string;
 
