@@ -1,8 +1,10 @@
 # Angle Alchemy
 
-Radiance provides simple, lightweight classes to make it easy for your PHP applications to deal with 360°-based angles, such as converting between various formats, adding and subtracting, and finding distances and midpoints.
+Radiance provides simple, lightweight classes to make it easy for your PHP applications to deal with 360° circle-based angles, such as converting between various formats, adding and subtracting, normalizing, and finding distances and midpoints.
 
 ## Installation
+
+**NOTE:** Radiance requires the [BCMath](https://www.php.net/manual/en/book.bc.php) extension to work.
 
 ```bash
 composer require theriftlab/radiance
@@ -151,12 +153,12 @@ The following functions are available for all class types, including `Diff`:
 | Method | Return Type | Parameters | Default | Description |
 | --- | --- | --- | --- | --- |
 | `isNegative()` | `bool` | None | None | Returns whether the angle is negative. |
-| `getDegrees()` | `float` | `int $decimalPlaces` | `null` | Returns the unsigned degrees portion of the angle. If decimal places are set to `-1` it will be `floor()`ed, and passing `0` and upward will round it as normal - **NOTE:** this is limited to 8 decimal places. Passing `null` will simply return the full decimal value - again, limited to 8 decimal places. |
+| `getDegrees()` | `float` | `int $decimalPlaces` | `null` | Returns the unsigned degrees portion of the angle. If `$decimalPlaces` is set to `-1` it will be `floor()`ed, and passing `0` and upward will round it as normal. The default `null` will round to 8 decimal places. |
 | `getMinutes()` | `float` | `int $decimalPlaces` | `null` | The same as above but for minutes. |
 | `getSeconds()` | `float` | `int $decimalPlaces` | `null` | The same as above but for seconds. |
-| `toDecimal()` | `float` | `int $decimalPlaces` | `null` | The same as above but returns the underlying `float` angle. Essentially the same as `getDegrees()` but signed. |
-| `toRawDecimal()` | `string` | None | None | Returns the underlying `float` angle's internal string. |
-| `toArray()` | `array` | None | None | Returns an array with the following elements:<br>* `direction`: either `-` or `+`.<br>* `degrees`: rounded-down `int` representing degrees.<br>* `minutes`: rounded-down `int` representing minutes.<br>* `seconds`: a `float` representing seconds, rounded to a maximum 8 decimal places. |
+| `toDecimal()` | `float` | `int $decimalPlaces` | `null` | The same as above but returns the underlying `float` angle. Essentially the same as `getDegrees()` but signed. Since PHP's `float` type is limited to 14 significant digits, if you require more precision then use the `toRawDecimal()` function described below. |
+| `toRawDecimal()` | `string` | None | None | Returns the angle's underlying BCMath string. |
+| `toArray()` | `array` | None | None | Returns an array with the following elements:<br>* `direction`: either `-` or `+`.<br>* `degrees`: floored `int` representing degrees.<br>* `minutes`: floored `int` representing minutes.<br>* `seconds`: a `float` representing seconds, rounded to 8 decimal places. |
 | `toString()` | `string` | `string $format` | Dependent on type | Formats the angle as requested. See the [String Formatting](#string-formatting) section below for details. Calling this with no arguments will yield the default format depending on the calling instance's class type, as demonstrated in the examples above. |
 
 The following additional operations are available for the `Angle`, `Latitude` and `Longitude` classes which implement `AngleInterface`:
