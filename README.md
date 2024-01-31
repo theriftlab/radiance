@@ -4,7 +4,7 @@ Radiance provides simple, lightweight classes to make it easy for your PHP appli
 
 ## Installation
 
-**NOTE:** Radiance requires the [BCMath](https://www.php.net/manual/en/book.bc.php) extension to work.
+**NOTE:** Radiance requires PHP ^8.1 and the [BCMath](https://www.php.net/manual/en/book.bc.php) extension.
 
 ```bash
 composer require theriftlab/radiance
