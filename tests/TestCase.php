@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace RiftLab\Radiance\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use RiftLab\Radiance\Angle;

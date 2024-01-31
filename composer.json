@@ -5,8 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "RiftLab\\Radiance\\": "src/",
-            "Tests\\": "tests/"
+            "RiftLab\\Radiance\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RiftLab\\Radiance\\Tests\\": "tests/"
         }
     },
     "authors": [
